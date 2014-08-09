@@ -1,0 +1,9 @@
+[]
+access = read : [ * ], write : [ admin, power ]
+export = none
+version = 6.1.1
+modtime = 1407385557.482800000
+
+[inputs/fitbit%3A%2F%2Fmark_groves]
+version = 6.1.1
+modtime = 1407468709.079463000
