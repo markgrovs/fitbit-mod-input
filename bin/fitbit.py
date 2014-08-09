@@ -52,7 +52,7 @@ class Fitbit_Data(Script):
                 resource_owner_key = str(input_item["resource_owner_key"])
                 resource_owner_secret = str(input_item["resource_owner_secret"])
 
-                client = fitbit.Fitbit(client_key, client_secret, resource_owner_key, resource_owner_secret)
+                client = fitbit.Fitbit(client_key, client_secret, resource_owner_key=resource_owner_key, resource_owner_secret=resource_owner_secret)
                 
                 date = datetime.date(2014, 8, 1)
                 result = client.get_sleep(date)
@@ -60,6 +60,7 @@ class Fitbit_Data(Script):
                 event = Event()
                 event.stanza = input_name
                 event.data = result
+                event.time = "08/01/2014"
                 ew.log("warn", event)
                 ew.write_event(event)
         except Exception as e:
