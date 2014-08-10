@@ -2,8 +2,9 @@
 
 from splunklib.modularinput import *
 from splunklib.client import Inputs, Service
+
 import fitbit
-import sys, urllib2, json, datetime
+import sys, urllib2, json, datetime, time
 
 
 
@@ -55,13 +56,14 @@ class Fitbit_Data(Script):
                 client = fitbit.Fitbit(client_key, client_secret, resource_owner_key=resource_owner_key, resource_owner_secret=resource_owner_secret)
                 
                 date = datetime.date(2014, 8, 1)
-                result = client.get_sleep(date)
+                # result = client.get_sleep(date)
+                result = client.time_series('activities/tracker/steps', base_date='2014-08-01', period=None, end_date='2014-08-01')
 
                 event = Event()
                 event.stanza = input_name
-                event.data = result
-                event.time = "08/01/2014"
-                ew.log("warn", event)
+                event.data = json.dumps(result, sort_keys = True)
+                t = datetime.datetime(2014, 8, 1)
+                event.time = time.mktime(t.timetuple())
                 ew.write_event(event)
         except Exception as e:
             sys.stderr.write(str(e) + "\n")
